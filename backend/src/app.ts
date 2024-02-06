@@ -4,15 +4,15 @@ import morgan from "morgan";
 import cors from "cors";
 
 // ROUTES
+import { authRouter } from "./routes/auth";
 
 // CONTROLLERS
 import { errorController } from "./controllers/error";
 
-// MIDDLEWARES
-
-//UTILITIES
+// UTILITIES
 import { AppError } from "./utils/appError";
 
+// MIDDLEWARES
 const app = express();
 
 app.use(morgan("dev"));
@@ -27,12 +27,13 @@ app.use((req: IRequest, res: IResponse, next: NextFunction) => {
 });
 
 // API routes
+app.use('/api/v1/auth/', authRouter);
 
 app.get("/", (req: IRequest, res: IResponse) => {
   res.send("Hello from the server!");
 });
 
-// Manage unhandles routes
+// Manage unhandled routes
 app.all("*", (req: IRequest, res: IResponse, next: NextFunction) => {
   const err = new AppError(`Unable to find ${req.originalUrl} on server`, 404);
   next(err);

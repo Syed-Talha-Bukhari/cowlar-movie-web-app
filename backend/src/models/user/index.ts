@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
       validate: [validator.isEmail, "Please provide a valid email"],
     },
-    phone: {
+    phoneNumber: {
       type: String,
       required: [true, "Please enter your phone number"],
       validate: {
@@ -54,7 +54,7 @@ userSchema.methods.matchPassword = async function (pass_: string) {
 };
 
 userSchema.pre<IUser>("save", async function (next: any) {
-  this.password = await bcrypt.hash(this.password, 12);
+  this.password = this.encryptPassword(this.password);
   next();
 });
 
