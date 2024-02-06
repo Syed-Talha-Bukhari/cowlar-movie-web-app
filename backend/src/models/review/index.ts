@@ -21,9 +21,13 @@ const reviewSchema = new mongoose.Schema(
     },
     rating: {
       type: Number,
-      required: [true, "Please provide a rating out of 10"],
+      required: [true, "Please provide a rating out of 10 in integer"],
       min: [1, "Minimum rating can be 1"],
       max: [10, "Maximum rating can be 10"],
+      validate: {
+        validator: Number.isInteger,
+        message: 'Rating must be an integer',
+    },
     },
   },
   { collection: "Review", timestamps: true }
