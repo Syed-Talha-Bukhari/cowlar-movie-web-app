@@ -1,6 +1,5 @@
 import mongoose, { Model } from 'mongoose';
 import { IMovie } from "./../../types/movie";
-import UserModel from '../user/index';
 
 const movieSchema = new mongoose.Schema({
 	name: {
@@ -45,7 +44,7 @@ const movieSchema = new mongoose.Schema({
     },
 	creator: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'UserModel',
+		ref: 'User',
 		required: [true, "Please add a creator of the movie"],
 	},
 

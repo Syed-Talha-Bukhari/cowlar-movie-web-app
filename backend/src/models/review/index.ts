@@ -1,18 +1,16 @@
 import mongoose, { Model } from "mongoose";
 import { IReview } from "../../types/review";
-import UserModel from "../user";
-import MovieModel from "../movie";
 
 const reviewSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "UserModel",
+      ref: "User",
       required: [true, 'Please enter the creator of this review'],
     },
     movieId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "MovieModel",
+      ref: "Movie",
       required: [true, 'Please enter the movie being reviewed'],
     },
     comment: {

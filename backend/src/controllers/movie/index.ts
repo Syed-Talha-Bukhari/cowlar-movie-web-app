@@ -27,6 +27,9 @@ export const getAllMovies = catchAsync(
 export const getMovie = catchAsync(async (req: IRequest, res: IResponse, next: NextFunction) => {
 
     const movieId = req.params.id
+    if (!movieId) {
+      return next(new AppError('Specific Movie ID was not provided', 404))
+    }
 
     const movie = await getMovieByIdService(movieId);
 
@@ -73,7 +76,12 @@ export const createMovie = catchAsync(async (req: IRequest, res: IResponse, next
 
 export const deleteMovie = catchAsync(async (req: IRequest, res: IResponse, next: NextFunction) => {
 
-    const deletedMovie = await deleteMovieService(req.user.id, req.params.id);
+    const movieId = req.params.id
+    if (!movieId) {
+      return next(new AppError('Specific Movie ID was not provided', 404))
+    }
+
+    const deletedMovie = await deleteMovieService(req.user.id, movieId);
 
     if (!deletedMovie) {
         return next(new AppError('Movie deletion process failed', 400))
