@@ -3,7 +3,7 @@ import { IRequest, IResponse } from "../../types/express";
 import { AppError } from "../../utils/appError";
 import { catchAsync } from "../../utils/catchAsync";
 import { createToken } from "../../utils/jwt";
-import { loginService } from "../../services/auth";
+import loginService from "../../services/auth/login";
 
 const loginController = catchAsync(async (req: IRequest, res: IResponse, next: NextFunction) => {
     const { password, email } = req.body;

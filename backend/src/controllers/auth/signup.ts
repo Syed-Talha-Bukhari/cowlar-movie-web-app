@@ -3,7 +3,7 @@ import { NextFunction } from "express";
 import { catchAsync } from "../../utils/catchAsync";
 import { AppError } from "../../utils/appError";
 import { createToken } from "../../utils/jwt";
-import { signupService } from "../../services/auth";
+import signupService from "../../services/auth/signup";
 
 const signUpController = catchAsync(async (req: IRequest, res: IResponse, next: NextFunction) => {
     const { name, password, email, phoneNumber } = req.body;

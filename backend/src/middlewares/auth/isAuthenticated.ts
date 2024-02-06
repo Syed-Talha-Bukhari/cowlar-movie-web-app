@@ -4,8 +4,9 @@ import { catchAsync } from "../../utils/catchAsync";
 import { getUserFromRequest } from "../../utils/jwt";
 import UserModel from "../../models/user";
 
-const isAuthenticated = catchAsync(
+export const isAuthenticated = catchAsync(
   async (req: IRequest, res: IResponse, next: NextFunction) => {
+
     const id = getUserFromRequest(req, next);
 
     const user = await UserModel.findById(id);
@@ -20,5 +21,3 @@ const isAuthenticated = catchAsync(
     next();
   }
 );
-
-export default isAuthenticated;
