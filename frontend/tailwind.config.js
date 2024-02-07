@@ -4,6 +4,9 @@ export default {
     theme: {
       extend: {
         colors: {
+          background: "#242424",
+          navbar: "#1a1a1a",
+          textColor: "rgba(255, 255, 255, 0.87)"
         },
       },
     },
