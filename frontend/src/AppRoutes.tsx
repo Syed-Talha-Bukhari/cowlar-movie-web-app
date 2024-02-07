@@ -5,6 +5,7 @@ import Signup from './views/signup';
 import MovieDetails from './views/movieDetails';
 import UserMovies from './views/userMovies';
 import FallbackPage from './views/fallback';
+import Movies from './views/movies';
 
 function AppRoutes() {
 
@@ -13,6 +14,7 @@ function AppRoutes() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home/>} />
+          <Route path="/movies" element={< Movies/>} />
           <Route path="/movies/:id" element={<MovieDetails />} />
           <Route path="/user-movies" element={<UserMovies />} />
           <Route path="/login" element={<Login />} />
