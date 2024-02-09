@@ -16,7 +16,7 @@ const Button: React.FC<Props> = ({
     onClick,
     className
 }) => {
-    const buttonClasses = `my-1 rounded text-sm md:text-base lg:text-base px-5 py-1 text-center mr-2 inline-flex items-center transition-all ${disabled ? 'bg-gray-500 cursor-not-allowed' : 'bg-textWhite text-bgPrimary'} ${className ?? className}`;
+    const buttonClasses = `my-1 rounded text-sm md:text-base lg:text-base px-5 py-1 text-center mr-2 inline-flex items-center transition-all ${disabled ? 'bg-gray-500 cursor-not-allowed' : 'bg-textIndigo text-bgPrimary'} ${className ?? className}`;
 
     return (
         <button

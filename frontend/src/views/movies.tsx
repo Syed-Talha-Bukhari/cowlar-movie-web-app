@@ -1,8 +1,11 @@
-
+import MovieCard from "../cards/movieCard";
+import AppLayout from "../layout/appLayout";
 
 const Movies = () => {
     return(
-        <div>Movies</div>
+        <></>
+
+        
     )
 }
 
