@@ -3,6 +3,4 @@ export default interface IMovie {
     year: string,
     description: string,
     genre: string,
-    rating: string,
-    totalReviews: string
 }
