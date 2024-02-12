@@ -4,7 +4,7 @@ type Props = {
     text: string;
     disabled?: boolean;
     type?: 'button' | 'submit' | 'reset';
-    onClick?: () => void;
+    onClick?: any;
     className?: string;
 };
 

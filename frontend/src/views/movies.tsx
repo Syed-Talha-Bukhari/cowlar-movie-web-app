@@ -1,6 +1,6 @@
-import MovieCard from "../cards/movieCard";
+import MovieCard from "../components/cards/movieCard";
 import AppLayout from "../layout/appLayout";
-import Button from "../components/button";
+import Button from "../components/buttons/button";
 
 const Movies = () => {
     return (

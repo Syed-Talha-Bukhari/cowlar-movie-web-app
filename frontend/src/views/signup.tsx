@@ -1,5 +1,5 @@
 import AppLayout from "../layout/appLayout";
-import Button from "../components/button";
+import Button from "../components/buttons/button";
 
 const Signup = () => {
     return(

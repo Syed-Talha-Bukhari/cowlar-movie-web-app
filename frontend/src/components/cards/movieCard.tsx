@@ -1,4 +1,4 @@
-import Button from "../components/button";
+import Button from "../buttons/button";
 import { FC } from 'react';
 
 

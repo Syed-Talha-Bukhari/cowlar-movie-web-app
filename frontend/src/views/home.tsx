@@ -1,7 +1,20 @@
 import AppLayout from "../layout/appLayout";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import MovieModal from "../components/modals/movieModal";
 
 const Home = () => {
+    const [isOpenModal, setOpenModal] = useState<boolean>(false);
+
+    const openModal = (e: any) => {
+        e.preventDefault();
+        setOpenModal(true);
+    };
+
+    const closeModal = () => {
+        setOpenModal(false);
+    };
+
     return (
         <>
             <AppLayout>
@@ -21,20 +34,25 @@ const Home = () => {
                         <div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
                             <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base font-semibold leading-7 sm:grid-cols-2 md:flex lg:gap-x-10 text-textIndigo">
                                 <Link to="./movies">
-                                <a className="text-textIndigo" href="#">Explore Movies <span aria-hidden="true">&rarr;</span></a>
+                                    <a className="text-textIndigo" href="#">Explore Movies <span aria-hidden="true">&rarr;</span></a>
                                 </Link>
                                 <Link to="./user-movies">
-                                <a href="#">Uploaded Movies <span aria-hidden="true">&rarr;</span></a>
+                                    <a href="#">Uploaded Movies <span aria-hidden="true">&rarr;</span></a>
                                 </Link>
-                                
-                                <a href="#">Add Movie <span aria-hidden="true">&rarr;</span></a>
-            
+
+                                <a className="cursor-pointer" onClick={openModal}>Add Movie <span aria-hidden="true">&rarr;</span></a>
+
                             </div>
 
                         </div>
                     </div>
                 </div>
             </AppLayout>
+
+            <MovieModal
+                openModal={isOpenModal}
+                onClose={closeModal}
+            />
         </>
     )
 }

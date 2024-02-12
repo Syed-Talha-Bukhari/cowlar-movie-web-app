@@ -1,4 +1,4 @@
-import MovieCard from "../cards/movieCard";
+import MovieCard from "../components/cards/movieCard";
 import AppLayout from "../layout/appLayout";
 
 const UserMovies = () => {
