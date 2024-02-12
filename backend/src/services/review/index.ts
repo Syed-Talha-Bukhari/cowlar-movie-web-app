@@ -12,7 +12,7 @@ export const getAllMovieReviewsService = async (movieId: string) => {
             movieId: review.movieId,
             name: review.userId.name,
             comment: review.comment,
-            rating: review.ratingStars,
+            rating: review.rating,
             createdAt: review.createdAt,
             updatedAt: review.updatedAt,
         };
@@ -33,7 +33,7 @@ export const getOwnMoviewReviewService = async (movieId: string, userId: string)
             movieId: review.movieId,
             name: review.userId.name,
             comment: review.comment,
-            rating: review.ratingStars,
+            rating: review.rating,
             createdAt: review.createdAt,
             updatedAt: review.updatedAt,
         };
@@ -43,7 +43,6 @@ export const getOwnMoviewReviewService = async (movieId: string, userId: string)
 
 export const getReviewService = async (movieId: string, reviewId: string) => {
     const review = await reviewModel.findOne({ movieId: movieId, _id: reviewId });
-    console.log(review);
     return review;
 }
 
