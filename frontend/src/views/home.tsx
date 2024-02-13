@@ -1,24 +1,30 @@
 import AppLayout from "../layout/appLayout";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import MovieModal from "../components/modals/movieModal";
+import { UserContext } from "../context/userContext";
+import toast from "react-hot-toast";
 import Loader from "../components/loader/loader";
 
 const Home = () => {
     const [isOpenModal, setOpenModal] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
+    const { isLogged } = useContext(UserContext);
+
     const openModal = (e: any) => {
-        e.preventDefault();
-        setIsLoading(true);
-        setOpenModal(true);
-        setIsLoading(false);
+        if (isLogged) {
+            e.preventDefault();
+            setOpenModal(true);
+        }
+        else{
+            toast("You need to login to add a movie")
+        }
+
     };
 
     const closeModal = () => {
-        setIsLoading(true);
         setOpenModal(false);
-        setIsLoading(false);
     };
 
     if (isLoading) {
@@ -32,6 +38,7 @@ const Home = () => {
             </>
         );
     }
+
 
     return (
         <>
@@ -70,6 +77,7 @@ const Home = () => {
             <MovieModal
                 openModal={isOpenModal}
                 onClose={closeModal}
+                setIsLoading={setIsLoading} 
             />
         </>
     )

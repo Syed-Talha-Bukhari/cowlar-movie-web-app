@@ -118,6 +118,11 @@ export const createMovieService = async (movieData: IMovie) => {
   return movies;
 };
 
+export const checkDuplicateMovieService = async (name: string) => {
+  const existingMovie = await MovieModel.findOne({ name });
+  return existingMovie;
+}
+
 export const deleteMovieService = async (userId: string, movieId: string) => {
   const movie = await MovieModel.findOneAndDelete({
     creator: userId,
