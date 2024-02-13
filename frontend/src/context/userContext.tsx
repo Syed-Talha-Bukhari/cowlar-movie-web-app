@@ -5,7 +5,7 @@ import { IUser } from '../types/user';
 const UserContext = createContext<IContext>(null!);
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const [isLogged, setIsLogged] = useState<boolean>(false);
   const [user, setUser] = useState<IUser | null>(null);
   
   const updateUser = (userData: IUser | null) => {
@@ -13,7 +13,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <UserContext.Provider value={{user, updateUser, isLoggedIn, setIsLoggedIn}}>{children}</UserContext.Provider>
+    <UserContext.Provider value={{user, updateUser, isLogged, setIsLogged}}>{children}</UserContext.Provider>
   );
 };
 

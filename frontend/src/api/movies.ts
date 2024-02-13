@@ -6,6 +6,9 @@ export const getAllMovies = async (search: string) => {
   try {
     const res = await axios.get(`/movies?name=${search}`);
     if (res.status === 200 && res.data.message === "success") {
+      if(res.data.data.length === 0){
+        toast.error("No such movie on platform exists");
+      }
       return {
         data: res.data.data,
       };

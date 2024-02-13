@@ -5,11 +5,11 @@ import toast from "react-hot-toast";
 
 const useLogOut = () => {
   const navigate = useNavigate();
-  const { setIsLoggedIn, updateUser } = useContext(UserContext);
+  const { setIsLogged, updateUser } = useContext(UserContext);
 
   const logout = () => {
     localStorage.removeItem("token");
-    setIsLoggedIn(false);
+    setIsLogged(false);
     updateUser(null);
     toast("Loggin Out", {
       duration: 2000,

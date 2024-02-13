@@ -1,9 +1,12 @@
 import React from "react";
 import Button from "../buttons/button";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../context/userContext";
 
 function Navbar() {
   const [isActive, setIsActive] = React.useState<boolean>(true);
+
 
   return (
     <>
