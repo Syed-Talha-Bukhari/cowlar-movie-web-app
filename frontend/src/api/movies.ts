@@ -22,7 +22,7 @@ export const getAllMovies = async (search: string) => {
 
 export const getMoviesByCreator = async (token: string) => {
   try {
-    const res = await axios.get(`/movies/user`, {
+    const res = await axios.get(`/movies/me`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

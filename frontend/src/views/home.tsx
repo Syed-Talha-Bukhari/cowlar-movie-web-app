@@ -2,18 +2,36 @@ import AppLayout from "../layout/appLayout";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import MovieModal from "../components/modals/movieModal";
+import Loader from "../components/loader/loader";
 
 const Home = () => {
     const [isOpenModal, setOpenModal] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const openModal = (e: any) => {
         e.preventDefault();
+        setIsLoading(true);
         setOpenModal(true);
+        setIsLoading(false);
     };
 
     const closeModal = () => {
+        setIsLoading(true);
         setOpenModal(false);
+        setIsLoading(false);
     };
+
+    if (isLoading) {
+        return (
+            <>
+                <AppLayout>
+                    <div className="w-screen h-screen flex items-center justify-center">
+                        <Loader />
+                    </div>
+                </AppLayout>
+            </>
+        );
+    }
 
     return (
         <>
