@@ -11,10 +11,10 @@ const useLogOut = () => {
     localStorage.removeItem("token");
     setIsLogged(false);
     updateUser(null);
-    toast("Loggin Out", {
+    toast("Logged Out Successfully", {
       duration: 2000,
     });
-    navigate("/login");
+    navigate("/");
   };
   return { logout };
 };

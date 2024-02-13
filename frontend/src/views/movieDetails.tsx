@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import { getMovie  } from "../api/movies";
 import { getAllMovieReviews, getOwnMovieReview } from "../api/reviews";
 import { useParams } from "react-router-dom";
+import Loader from "../components/loader/loader";
 
 interface IMovieRespone extends IMovie {
     averageRating: string;
@@ -23,7 +24,7 @@ interface IMovieRespone extends IMovie {
 
 const MovieDetails = () => {
     const [isOpenModal, setOpenModal] = useState<boolean>(false);
-    const [isPageLoading, setIsPageLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [movie, setMovie] = useState<IMovieRespone>({
         _id: "",
         name: "",
@@ -45,7 +46,7 @@ const MovieDetails = () => {
     useEffect(() => {
         (async () => {
             try {
-                setIsPageLoading(true);
+                setIsLoading(true);
                 const { data } = (await getMovie(id || '')) as any;
                 if(isLogged) {
                     const { reviews } = (await getAllMovieReviews(
@@ -60,7 +61,7 @@ const MovieDetails = () => {
                     setOwnReview(review);
                 }    
                 setMovie(data);
-                setIsPageLoading(false);
+                setIsLoading(false);
             } catch (error) {
                 console.log('error', error);
                 toast.error('Error fetching movie details and reviews');
@@ -77,6 +78,18 @@ const MovieDetails = () => {
     const closeModal = () => {
         setOpenModal(false);
     };
+
+    if (isLoading) {
+        return (
+            <>
+                <AppLayout>
+                    <div className="w-screen h-screen flex items-center justify-center">
+                        <Loader />
+                    </div>
+                </AppLayout>
+            </>
+        );
+    }
 
     return (<>
         <AppLayout>

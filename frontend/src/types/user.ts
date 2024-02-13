@@ -10,5 +10,5 @@ export interface INewUser {
   email: string;
   password: string;
   name: string;
-  phone: string;
+  phoneNumber: string;
 }

@@ -3,9 +3,15 @@ import Button from "../buttons/button";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../../context/userContext";
+import useLogOut from "../../auth/useLogout";
+import { faUser } from '@fortawesome/free-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function Navbar() {
   const [isActive, setIsActive] = React.useState<boolean>(true);
+
+  const { isLogged, user } = useContext(UserContext);
+  const { logout } = useLogOut();
 
 
   return (
@@ -14,8 +20,8 @@ function Navbar() {
         <nav className="bg-bgSecondary flex items-center justify-between p-3 lg:px-8" aria-label="Global">
           <div className="flex lg:flex-1">
             <a href="#" className="-m-1.5 p-1.5 text-textWhite">
-              <Link to="/"> <h2 className="text-xl">Filmalzia</h2></Link>
-              
+              <Link to="/"> <h2 className="text-xl">Filmazia</h2></Link>
+
             </a>
           </div>
           <div className="flex lg:hidden" onClick={() => setIsActive(true)}>
@@ -27,16 +33,33 @@ function Navbar() {
             </button>
           </div>
           <div className="hidden lg:flex lg:gap-x-12">
-            {/* <a href="#" className="text-sm font-semibold leading-6 text-textWhite">Home</a> */}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            {/* <a href="#" className="text-sm font-semibold leading-6 text-textWhite">Log in <span aria-hidden="true">&rarr;</span></a> */}
-            <Link to="/login">
-              <Button text="LogIn" />
-            </Link>
-            <Link to="/signup">
-              <Button text="SignUp" />
-            </Link>
+            {!isLogged ? <>
+              <Link to="/login">
+                <Button text="LogIn" />
+              </Link>
+              <Link to="/signup">
+                <Button text="SignUp" />
+              </Link>
+            </>
+              :
+              <>
+                <div className="flex items-center">
+                  <p className="inline-flex items-center mr-3 text-sm text-textWhite dark:text-white font-semibold">
+                    <div className='flex items-center'>
+                      <FontAwesomeIcon
+                        icon={faUser}
+                        className="mr-2 w-4 h-4 rounded-full bg-textIndigo p-2"
+                        height={12}
+                        color='black'
+                      /> {user?.name}
+                    </div>
+                  </p>
+                </div>
+                <Button text="LogOut" onClick={logout} />
+              </>}
+
           </div>
         </nav>
 
@@ -59,12 +82,16 @@ function Navbar() {
               <div className="mt-6 flow-root">
                 <div className="-my-6 divide-y divide-gray-500/10">
                   <div className="space-y-2 py-6">
-                    {/* <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-textWhite hover:bg-gray-50">Home</a> */}
-
                   </div>
                   <div className="py-6">
-                    <a href="#" className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-textWhite hover:bg-gray-50">Log in</a>
-                    <a href="#" className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-textWhite hover:bg-gray-50">Sign Up</a>
+                  {!isLogged ? <>
+                    <Link to="/login"><a href="#" className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-textWhite hover:bg-gray-50">Log in</a> </Link>
+                    <Link to="/signup"><a href="#" className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-textWhite hover:bg-gray-50">Sign Up</a></Link>
+                  </>: <>
+                  <a onClick={logout} href="#" className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-textWhite hover:bg-gray-50">{user?.name}</a>
+                  <a onClick={logout} href="#" className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-textWhite hover:bg-gray-50">Log Out</a>
+                  </>}
+                   
                   </div>
                 </div>
               </div>

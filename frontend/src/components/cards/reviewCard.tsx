@@ -35,8 +35,6 @@ const ReviewCard: React.FC<IReviewProps> = ({ own = false, reviewBody }) => {
                                 /> {reviewBody?.name}
                             </div>
                         </p>
-
-
                     </div>
                     <div className='flex items-center justify-center'>
                         <FontAwesomeIcon

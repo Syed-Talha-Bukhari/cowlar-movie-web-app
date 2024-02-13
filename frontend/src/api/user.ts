@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 import axios from "../config/config";
-import { INewUser } from '../types/user';
+import { INewUser } from "../types/user";
 
 export const loginUser = async (email: string, password: string) => {
   try {
@@ -34,11 +34,10 @@ export const loginUser = async (email: string, password: string) => {
   return null;
 };
 
-export const signUpUser = async ( user: INewUser) => {
+export const signUpUser = async (user: INewUser) => {
   try {
-    const res = await axios.post("/auth/signup", {
-      user
-    });
+    console.log(user);
+    const res = await axios.post("/auth/signup", user);
     if (res.status === 200 && res.data.message === "success") {
       toast.success("User Registered Successfully!", {
         duration: 2000,
@@ -49,7 +48,7 @@ export const signUpUser = async ( user: INewUser) => {
       };
     }
   } catch (error: any) {
-    console.log("Error in User Regustration", error);
+    console.log("Error in User Signup", error);
     toast.error(error?.response?.data?.message);
   }
   return null;

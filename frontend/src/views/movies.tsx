@@ -47,7 +47,7 @@ const Movies = () => {
             setIsLoading(false);
         } catch (error) {
             console.log('error', error);
-            toast.error("There was an error fetching movies, try refreshing!", { className: "text-center" })
+            toast.error("Error in fetching movie data!")
         }
     }
 

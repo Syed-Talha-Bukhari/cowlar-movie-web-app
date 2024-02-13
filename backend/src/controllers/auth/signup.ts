@@ -4,9 +4,16 @@ import { catchAsync } from "../../utils/catchAsync";
 import { AppError } from "../../utils/appError";
 import { createToken } from "../../utils/jwt";
 import signupService from "../../services/auth/signup";
+import checkEmailService from "../../services/auth/checkEmail";
 
 const signUpController = catchAsync(async (req: IRequest, res: IResponse, next: NextFunction) => {
     const { name, password, email, phoneNumber } = req.body;
+
+    const existingUser = await checkEmailService(email);
+
+    if(existingUser){
+        return next(new AppError("User with this email already exists", 400));
+    }
 
     const user = await signupService(name, password, email, phoneNumber);
 
