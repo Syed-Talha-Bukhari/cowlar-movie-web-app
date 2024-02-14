@@ -6,6 +6,7 @@ import Loader from "../components/loader/loader";
 import IMovie from "../types/movies";
 import toast from "react-hot-toast";
 import { UserContext } from "../context/userContext";
+import useAuthVerification from "../auth/useAuthVerification";
 
 interface IMovieRespone extends IMovie {
     averageRating: number;
@@ -20,6 +21,7 @@ const UserMovies = () => {
     const [refreshMovies, setRefreshMovies] = useState<number>(1);
 
     const { user } = useContext(UserContext);
+    const { pageLoading } = useAuthVerification();
 
 
     useEffect(() => {
@@ -36,7 +38,7 @@ const UserMovies = () => {
         })()
     }, [refreshMovies])
 
-    if (isLoading) {
+    if (isLoading || pageLoading) {
         return (
             <>
                 <AppLayout>

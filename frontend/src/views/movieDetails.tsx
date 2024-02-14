@@ -9,10 +9,11 @@ import ReviewModal from "../components/modals/reviewModal";
 import IMovie from "../types/movies";
 import { IReview } from "../types/review";
 import toast from "react-hot-toast";
-import { getMovie  } from "../api/movies";
+import { getMovie } from "../api/movies";
 import { getAllMovieReviews, getOwnMovieReview } from "../api/reviews";
 import { useParams } from "react-router-dom";
 import Loader from "../components/loader/loader";
+import useAuthVerification from "../auth/useAuthVerification";
 
 interface IMovieRespone extends IMovie {
     averageRating: string;
@@ -22,25 +23,41 @@ interface IMovieRespone extends IMovie {
     video: string;
 }
 
+interface IReviewResponse extends IReview{
+    name: string;
+}
+
+
+const movieObj: IMovieRespone = {
+    _id: "",
+    name: "",
+    year: "",
+    genre: "",
+    description: "",
+    image: "",
+    video: "",
+    averageRating: "",
+    totalReviews: ""
+};
+
+const reviewObj: IReview = {
+    _id: "",
+    movieId: "",
+    rating: "",
+    comment: "",
+};
+
 const MovieDetails = () => {
     const [isOpenModal, setOpenModal] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [movie, setMovie] = useState<IMovieRespone>({
-        _id: "",
-        name: "",
-        year: "",
-        genre: "",
-        description: "",
-        image: "",
-        video: "",
-        averageRating: "",
-        totalReviews: ""
-    });
-    const [ownReviews, setOwnReview] = useState<IReview | {}>({});
-    const [allReviews, setAllReviews] = useState<[IReview] | []>([]);
+    const [refreshReviews, setRefreshReviews] = useState<number>(1);
+    const [movie, setMovie] = useState<IMovieRespone>(movieObj);
+    const [ownReview, setOwnReview] = useState<IReview | null>(reviewObj);
+    const [allReviews, setAllReviews] = useState<[IReviewResponse] | []>([]);
 
     const { id } = useParams();
     const { isLogged, user } = useContext(UserContext);
+    const { pageLoading } = useAuthVerification();
 
 
     useEffect(() => {
@@ -48,7 +65,7 @@ const MovieDetails = () => {
             try {
                 setIsLoading(true);
                 const { data } = (await getMovie(id || '')) as any;
-                if(isLogged) {
+                if (isLogged) {
                     const { reviews } = (await getAllMovieReviews(
                         id || '',
                         user?.token || ''
@@ -57,9 +74,9 @@ const MovieDetails = () => {
                         id || '',
                         user?.token || ''
                     )) as any;
-                    setAllReviews(reviews);
                     setOwnReview(review);
-                }    
+                    setAllReviews(reviews);
+                }
                 setMovie(data);
                 setIsLoading(false);
             } catch (error) {
@@ -67,7 +84,7 @@ const MovieDetails = () => {
                 toast.error('Error fetching movie details and reviews');
             }
         })();
-    }, [user?.token]);
+    }, [user?.token, refreshReviews]);
 
 
     const openModal = (e: any) => {
@@ -79,7 +96,8 @@ const MovieDetails = () => {
         setOpenModal(false);
     };
 
-    if (isLoading) {
+
+    if (isLoading || pageLoading){
         return (
             <>
                 <AppLayout>
@@ -90,6 +108,7 @@ const MovieDetails = () => {
             </>
         );
     }
+
 
     return (<>
         <AppLayout>
@@ -124,7 +143,7 @@ const MovieDetails = () => {
                                     </span>
                                     <div className="flex items-center gap-2 my-2">
                                         <FontAwesomeIcon icon={faStar} height={16} color="#646cff" />
-                                        {parseInt(movie?.averageRating).toFixed(1)} / 10
+                                        {parseFloat(movie?.averageRating).toFixed(1)} / 5
                                     </div>
                                 </div>
                                 <div>{movie?.description}</div>
@@ -132,7 +151,7 @@ const MovieDetails = () => {
                         </div>
                     </div>
                     <iframe
-                        className=' border rounded-xl border-gray-900 w-[85vw] h-[380px] sm:w-[85vw] md:w-[560px] lg:w-[620px] xl:w-[620px] 2xl:w-[620px]'
+                        className=' border rounded-xl border-gray-900 w-[85vw] h-[380px] sm:w-[85vw] md:w-[35vw] lg:w-[35vw] xl:w-[35vw] 2xl:w-[35vw]'
                         src={movie?.video}
                         title='YouTube video player'
                         frameBorder='0'
@@ -140,7 +159,6 @@ const MovieDetails = () => {
                         allowFullScreen
                     ></iframe>
                 </div>
-
 
 
                 <div className='border-t border-gray-600 py-8 lg:py-16'>
@@ -152,43 +170,35 @@ const MovieDetails = () => {
                                         User Feedback
                                     </h2>
                                 </div>
-                                <form className='mb-6 self-end'>
-                                    <Button text="Add Review" onClick={openModal} />
-                                </form>
+                                {!ownReview &&
+                                    <form className='mb-6 self-end'>
+                                        <Button text="Add Review" onClick={openModal} />
+                                    </form>
+                                }
                             </div>
 
 
-                            <div className='flex justify-between items-center mb-4'>
-                                <h2 className='text-lg lg:text-2xl font-bold'>
-                                    Your Review
-                                </h2>
-                            </div>
+                            {ownReview && <>
+                                <div className='flex justify-between items-center mb-4'>
+                                    <h2 className='text-lg lg:text-2xl font-bold'>
+                                        Your Review
+                                    </h2>
+                                </div>
 
+                                <ReviewCard
+                                    own={true}
+                                    reviewBody={{
+                                        _id: ownReview?._id,
+                                        movieId: id as string,
+                                        comment: ownReview?.comment,
+                                        rating: ownReview?.rating,
+                                        name: user?.name as string,
+                                    }}
+                                    setRefreshReviews={setRefreshReviews}
+                                    openModal={openModal}
+                                />
 
-
-                            <ReviewCard
-                                own={true}
-                                reviewBody={{
-                                    _id: "2",
-                                    movieId: "2",
-                                    comment: "Good Moview",
-                                    rating: 8.3,
-                                    createdAt: "14/4/2002",
-                                    updatedAt: "14/4/2002",
-                                    name: "John",
-                                }}
-                            // setReFetchReview={setReFetchReview}
-                            // openModal={openModal}
-                            />
-
-                            {/* {ownReviews?.length === 0 && (
-                            <> */}
-                            {/* <p className='text-center font-medium my-12'>
-                                    {' '}
-                                    You haven't gave a review for this movie 😔
-                                </p> */}
-                            {/* </>
-                        )} */}
+                            </>}
 
                             <div className='flex justify-between items-center mb-4'>
                                 <h2 className='text-lg lg:text-2xl font-bold'>
@@ -196,43 +206,40 @@ const MovieDetails = () => {
                                 </h2>
                             </div>
 
-                            {/* {allReviews?.map((e: any) => {
-                            return  */}
-                            <ReviewCard own={false} reviewBody={{
-                                _id: "2",
-                                movieId: "2",
-                                comment: "Good Movie",
-                                rating: 4,
-                                createdAt: "14/4/2002",
-                                updatedAt: "14/4/2002",
-                                name: "John",
-                            }} />
-                            {/* })}
-                        {allReviews?.length === 0 && (
-                            <>
-                                <p className='text-center font-medium my-12'>
-                                    {' '}
-                                    No reviews available 😔
-                                </p>
-                            </>
-                        )} */}
+                            {allReviews?.map((review: IReviewResponse) => (
+                                <ReviewCard own={false} reviewBody={{
+                                    _id: review?._id,
+                                    movieId: id as string,
+                                    comment: review?.comment,
+                                    rating: review?.rating,
+                                    name: review?.name,
+                                }} />
+                            ))}
+
+
+                            {allReviews?.length === 0 && (
+                                <>
+                                    <p className='text-xl text-textWhite text-center my-12'>
+                                        This movie has no reviews yet
+                                    </p>
+                                </>
+                            )}
 
                         </> : <>
                             <p className="text-xl text-textWhite text-center">You need to Log In to view User Feedback</p>
                         </>}
                     </div>
                 </div>
-
-
-
             </div>
-
-
         </AppLayout>
 
         <ReviewModal
             openModal={isOpenModal}
             onClose={closeModal}
+            setIsLoading= {setIsLoading}
+            setRefreshReviews= {setRefreshReviews}
+            movieId= {id as string}
+            editData={ownReview ? ownReview : undefined}
         />
 
     </>);

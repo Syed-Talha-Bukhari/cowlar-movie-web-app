@@ -20,14 +20,16 @@ export const getAllMovieReviews = async (movieId: string, token: string) => {
 
 export const getOwnMovieReview = async (movieId: string, token: string) => {
     try {
-        const res = await axios.get(`/movies/${movieId}/reviews`, { headers: { Authorization: `Bearer ${token}` } });
+        const res = await axios.get(`/movies/${movieId}/reviews/me`, { headers: { Authorization: `Bearer ${token}` } });
 
         if (res.status === 200 && res.data.message === "success") {
-            return {
-                review: res.data.data,
-            };
+                return {
+                    review: res.data.data,
+                };
         }
     } catch (error: any) {
+        console.log(error);
+        if(error.response.request.status === 404) return {review: null}
         console.log('Unable to get your review', error);
         toast.error(error?.response?.data?.message);
     }
@@ -53,11 +55,11 @@ export const createReview = async (movieId: string, token: string, review: IRevi
     return null;
 };
 
-export const editReview = async (movieId: string, token: string, reviewId: string, review: IReview) => {
+export const editReview = async (movieId: string, reviewId: string, token: string, review: IReview) => {
     try {
         const res = await axios.patch(`/movies/${movieId}/reviews/${reviewId}`, {
             comment: review.comment,
-            ratingStars: review.rating
+            rating: review.rating
         }, { headers: { Authorization: `Bearer ${token}` } });
 
         if (res.status === 200 && res.data.message === "success") {

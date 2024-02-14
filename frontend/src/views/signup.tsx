@@ -7,12 +7,14 @@ import { useNavigate, Link } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import Loader from "../components/loader/loader";
 import { signUpUser } from "../api/user";
+import useAuthVerification from "../auth/useAuthVerification";
 
 const Signup = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const { setIsLogged, updateUser } = useContext(UserContext);
+    const { pageLoading } = useAuthVerification();
     const navigate = useNavigate();
 
     const signUp = async (data: any) => {
@@ -34,7 +36,7 @@ const Signup = () => {
         setIsLoading(false);
     };
 
-    if (isLoading) {
+    if (isLoading || pageLoading) {
         return (
             <>
                 <AppLayout>

@@ -8,7 +8,7 @@ import { faUser } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function Navbar() {
-  const [isActive, setIsActive] = React.useState<boolean>(true);
+  const [isActive, setIsActive] = React.useState<boolean>(false);
 
   const { isLogged, user } = useContext(UserContext);
   const { logout } = useLogOut();

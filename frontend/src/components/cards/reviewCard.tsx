@@ -2,23 +2,43 @@ import { faUser } from '@fortawesome/free-regular-svg-icons'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '../buttons/button';
-
+import { useContext } from 'react';
+import { UserContext } from '../../context/userContext';
+import { deleteReviews } from '../../api/reviews';
+import toast from 'react-hot-toast';
 interface IReviewBody {
     _id: string;
     movieId: string;
     comment: string;
-    rating: number;
-    createdAt: string;
-    updatedAt: string;
+    rating: string;
     name: string;
 }
 
 interface IReviewProps {
     own?: boolean
     reviewBody: IReviewBody
+    openModal?: any
+    setRefreshReviews?: any
 }
 
-const ReviewCard: React.FC<IReviewProps> = ({ own = false, reviewBody }) => {
+const ReviewCard: React.FC<IReviewProps> = ({ own = false, reviewBody, openModal, setRefreshReviews }) => {
+
+    const { user } = useContext(UserContext);
+
+    const onDeleteMovie = async () => {
+        try {
+            const deletionStatus = await deleteReviews(reviewBody.movieId, reviewBody._id, user?.token as string);
+            if (deletionStatus) {
+                toast.success("Review deleted successfully!")
+                setRefreshReviews((prev: number) => prev + 1);
+            }
+            else {
+                toast.error("Error in deleting review")
+            }
+        } catch (error) {
+            toast.error("Review deletion failed")
+        }
+    };
 
     return (
         <>
@@ -52,13 +72,12 @@ const ReviewCard: React.FC<IReviewProps> = ({ own = false, reviewBody }) => {
                 <p className="text-textWhite dark:text-gray-400">{reviewBody?.comment}</p>
 
                 <div className='flex justify-between'>
-                    <div className="text-sm text-gray-400 dark:text-gray-400 mt-3"><time dateTime="2022-02-08"
-                        title={reviewBody?.createdAt}>{new Date(reviewBody?.createdAt).toLocaleString()}</time>
+                    <div>
                     </div>
                     <div>
                         {own && (<>
-                            <Button text='Edit' />
-                            <Button text='Delete' />
+                            <Button text='Edit' onClick={openModal} />
+                            <Button text='Delete' onClick={onDeleteMovie} />
                         </>)}
                     </div>
                 </div>

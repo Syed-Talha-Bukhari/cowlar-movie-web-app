@@ -21,17 +21,15 @@ const reviewSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Please provide a rating out of 10 in integer"],
       min: [1, "Minimum rating can be 1"],
-      max: [10, "Maximum rating can be 10"],
+      max: [5, "Maximum rating can be 5"],
       validate: {
         validator: Number.isInteger,
         message: 'Rating must be an integer',
     },
     },
   },
-  { collection: "Review", timestamps: true }
+  { collection: "Review" }
 );
-
-reviewSchema.index({ userId: 1, movieId: 1 }, { unique: true });
 
 const ReviewModel: Model<IReview> = mongoose.model<IReview>(
   "Review",

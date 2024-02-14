@@ -46,7 +46,7 @@ const MovieCard: FC<MovieCardProps> = ({ name, image, year, genre, averageRating
                 <div className="flex flex-col w-1/2 space-y-4">
                     <div className="flex justify-between items-center">
                         <h2 className="text-xl font-bold">{name}</h2>
-                        {type === "generic" && <div className="bg-textIndigo text-md font-bold rounded-xl p-1">{averageRating}/10 ({totalReviews})</div>}
+                        {type === "generic" && <div className="bg-textIndigo text-md font-bold rounded-xl p-1">{averageRating.toFixed(1)}/5 ({totalReviews})</div>}
                     </div>
                     <div>
                         <div className="text-lg text-textIndigo">{year}</div>

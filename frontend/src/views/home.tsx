@@ -5,12 +5,15 @@ import MovieModal from "../components/modals/movieModal";
 import { UserContext } from "../context/userContext";
 import toast from "react-hot-toast";
 import Loader from "../components/loader/loader";
+import useAuthVerification from "../auth/useAuthVerification";
+
 
 const Home = () => {
     const [isOpenModal, setOpenModal] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const { isLogged } = useContext(UserContext);
+    const { pageLoading } = useAuthVerification();
 
     const openModal = (e: any) => {
         if (isLogged) {
@@ -27,7 +30,7 @@ const Home = () => {
         setOpenModal(false);
     };
 
-    if (isLoading) {
+    if (isLoading || pageLoading) {
         return (
             <>
                 <AppLayout>
