@@ -12,7 +12,7 @@ const signUpController = catchAsync(async (req: IRequest, res: IResponse, next: 
     const existingUser = await checkEmailService(email);
 
     if(existingUser){
-        return next(new AppError("User with this email already exists", 400));
+        return next(new AppError("User with this email already exists", 409));
     }
 
     const user = await signupService(name, password, email, phoneNumber);

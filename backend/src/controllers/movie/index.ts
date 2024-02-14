@@ -34,7 +34,7 @@ export const getMovie = catchAsync(
   async (req: IRequest, res: IResponse, next: NextFunction) => {
     const movieId = req.params.id;
     if (!movieId) {
-      return next(new AppError("Specific Movie ID was not provided", 404));
+      return next(new AppError("Specific Movie ID was not provided", 400));
     }
 
     const movie = await getMovieByIdService(movieId);
@@ -55,7 +55,7 @@ export const getMoviesByCreator = catchAsync(
     const movies = await getMoviesByCreatorService(req.user.id);
 
     if (!movies) {
-      return next(new AppError("No movies found to be created by user", 401));
+      return next(new AppError("No movies found to be created by user", 404));
     }
 
     return res.status(200).json({
@@ -74,7 +74,7 @@ export const createMovie = catchAsync(
     const existingMovie = await checkDuplicateMovieService(name);
 
     if (existingMovie) {
-      return next(new AppError("A movie with this name is already present. Choose another name", 400));
+      return next(new AppError("A movie with this name is already present. Choose another name", 409));
     }
 
     const createdMovie = await createMovieService({
@@ -88,7 +88,7 @@ export const createMovie = catchAsync(
     } as IMovie);
 
     if (!createdMovie) {
-      return next(new AppError("Movie creation process failed", 400));
+      return next(new AppError("Movie creation process failed", 500));
     }
 
     return res.status(200).json({
@@ -102,13 +102,13 @@ export const deleteMovie = catchAsync(
   async (req: IRequest, res: IResponse, next: NextFunction) => {
     const movieId = req.params.id;
     if (!movieId) {
-      return next(new AppError("Specific Movie ID was not provided", 404));
+      return next(new AppError("Specific Movie ID was not provided", 400));
     }
 
     const deletedMovie = await deleteMovieService(req.user.id, movieId);
 
     if (!deletedMovie) {
-      return next(new AppError("Movie deletion process failed", 400));
+      return next(new AppError("Movie deletion process failed", 404));
     }
 
     return res.status(204).json({

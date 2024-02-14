@@ -9,14 +9,14 @@ const handleCastErr = (err: any): any => {
 const handleValidationErr = (err: any): any => {
   const errors = Object.values(err.errors).map((el: any) => el.message);
   const message = `Invalid input. ${errors.join(". ")}`;
-  return new AppError(message, 400);
+  return new AppError(message, 433);
 };
 
 const handleDuplicateKeyErr = (err: any): any => {
   const dupKey = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
   return new AppError(
     `Duplicate field value: ${dupKey}. Use another value`,
-    400
+    409
   );
 };
 
@@ -38,4 +38,4 @@ export const errorController = (
     status: err.status,
     message: err.message,
   });
-}
+};

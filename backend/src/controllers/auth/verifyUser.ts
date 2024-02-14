@@ -7,7 +7,7 @@ import verifyUserService from "../../services/auth/verifyUser";
 const verifyUserController = catchAsync(
   async (req: IRequest, res: IResponse, next: NextFunction) => {
     const user = await verifyUserService(req.user.id, next);
-    if (!user) return next(new AppError("Token is not valid", 403));
+    if (!user) return next(new AppError("Token is not valid", 401));
 
     return res.status(200).json({
       message: "success",
