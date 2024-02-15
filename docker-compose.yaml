@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: ./frontend
+    container_name: cowlar-frontend-filmazia
+    ports:
+      - 5173:5173
+    depends_on:
+      - backend
+    environment:
+      - API_URL=http://localhost:5000/api/v1
+    networks:
+      - cowlar-test
+
+  backend:
+    build: ./backend
+    container_name: cowlar-backend-filmazia
+    restart: always
+    ports:
+      - 5000:5000
+    environment:
+      - PORT_NUMBER=5000
+      - MONGODB_CONNECTION_STRING=mongodb+srv://talhabukhari1060:Cowlar.123@cluster0.cesg7jd.mongodb.net/?retryWrites=true&w=majority
+      - MONGODB_CONNECTION_STRING_USERNAME=talhabukhari1060
+      - MONGODB_CONNECTION_STRING_PASSWORD=Cowlar.123
+      - JWT_SECRET_KEY=cowlar-movie-app
+      - JWT_EXPIRES_IN=20m
+    networks:
+      - cowlar-test
+
+networks:
+  cowlar-test:
+    driver: bridge
