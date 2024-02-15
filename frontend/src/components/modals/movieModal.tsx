@@ -29,8 +29,8 @@ const MovieModal: React.FC<MovieModal> = ({ openModal, onClose, setIsLoading }) 
         try {
             const newMovie = await createMovie(data, user?.token || "");
             setIsLoading(false);
-            onClose();
-            if(newMovie) toast.success("Movie has been added!")
+            onClose()
+            toast.success("Movie has been added!")
         } catch (error) {
             setIsLoading(false);
             toast.error("Movie creation process failed!")
@@ -98,13 +98,11 @@ const MovieModal: React.FC<MovieModal> = ({ openModal, onClose, setIsLoading }) 
                             </div>
                             <div>
                                 <label htmlFor="image" className="block mb-2 text-sm font-medium text-textWhite dark:text-white">Image URL</label>
-                                <input type="text" id="image" placeholder="Enter image URL" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-black" {...register('image', { required: 'Please enter movie image URL' })} />
-                                {errors.image && <span className="text-sm text-red-500">{errors.image.message?.toString()}</span>}
+                                <input type="text" id="image" placeholder="Enter image URL" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-black" />
                             </div>
                             <div>
                                 <label htmlFor="video" className="block mb-2 text-sm font-medium text-textWhite dark:text-white">Video URL</label>
-                                <input type="text" id="video" placeholder="Enter video URL" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-black" {...register('video', { required: 'Please enter movie video URL' })} />
-                                {errors.video && <span className="text-sm text-red-500">{errors.video.message?.toString()}</span>}
+                                <input type="text" id="video" placeholder="Enter video URL" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-black" />
                             </div>
                             <div>
                                 <label htmlFor="description" className="block mb-2 text-sm font-medium text-textWhite dark:text-white">Description</label>

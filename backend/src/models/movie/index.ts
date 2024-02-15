@@ -26,12 +26,12 @@ const movieSchema = new mongoose.Schema(
     image: {
       type: String,
       default:
-        "https://images.unsplash.com/photo-1542204165-65bf26472b9b?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://image.tmdb.org/t/p/w600_and_h900_bestv2/mS5SLxMYcKfUxA0utBSR5MOAWWr.jpg",
     },
 
     video: {
       type: String,
-      default: "https://youtu.be/DFTB7iSSeMQ?si=nFOnKDhe4oIOJ7Zo",
+      default: "https://www.youtube.com/embed/K4TOrB7at0Y?si=Uhz6ywvhr6KvDSD2",
     },
     genre: {
       type: String,
@@ -58,6 +58,16 @@ const movieSchema = new mongoose.Schema(
   },
   { collection: "Movie" }
 );
+
+movieSchema.pre<IMovie>('save', function (next: any) {
+	if (!this.image) {
+		this.image = 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/mS5SLxMYcKfUxA0utBSR5MOAWWr.jpg';
+	}
+	if (!this.video) {
+		this.video = 'https://www.youtube.com/embed/K4TOrB7at0Y?si=Uhz6ywvhr6KvDSD2';
+	}
+	next();
+});
 
 const MovieModel: Model<IMovie> = mongoose.model<IMovie>("Movie", movieSchema);
 
