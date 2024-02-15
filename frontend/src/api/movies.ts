@@ -65,7 +65,7 @@ export const createMovie = async (movie: IMovie, token: string) => {
         },
       }
     );
-    if (res.status === 200 && res.data.message === "success") {
+    if (res.status === 201 && res.data.message === "success") {
       return {
         data: res.data.data,
       };

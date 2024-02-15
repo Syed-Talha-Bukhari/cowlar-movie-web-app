@@ -31,17 +31,11 @@ const ReviewModal: React.FC<ReviewModal> = ({ openModal, onClose, setIsLoading, 
         try {
             if (editData) newReview = await editReview(movieId, editData?._id, user?.token as string, data);
             else newReview = await createReview(movieId, user?.token as string, data);
-            if (newReview) {
                 setRefreshReviews((prev: any) => prev + 1);
                 toast.success("Review has been added!")
                 onClose();
-            }
-            else {
-                toast.error("Failed to add a review")
-                onClose();
-            }
         } catch (error) {
-            toast.error("Error in review updation!")
+            toast.error("Unable to add review!")
         }
         setIsLoading(false);
     };

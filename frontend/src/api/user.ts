@@ -38,7 +38,7 @@ export const signUpUser = async (user: INewUser) => {
   try {
     console.log(user);
     const res = await axios.post("/auth/signup", user);
-    if (res.status === 200 && res.data.message === "success") {
+    if (res.status === 201 && res.data.message === "success") {
       toast.success("User Registered Successfully!", {
         duration: 2000,
       });

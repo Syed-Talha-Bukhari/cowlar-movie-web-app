@@ -43,7 +43,7 @@ export const createReview = async (movieId: string, token: string, review: IRevi
             rating: review.rating
         }, { headers: { Authorization: `Bearer ${token}` } });
 
-        if (res.status === 200 && res.data.message === "success") {
+        if (res.status === 201 && res.data.message === "success") {
             return {
                 data: res.data.data
             };
