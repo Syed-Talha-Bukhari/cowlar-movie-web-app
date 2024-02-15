@@ -85,7 +85,7 @@ export const createReview = catchAsync(async (req: IRequest, res: IResponse, nex
 
     if (!review) return next(new AppError("Unable to create review", 500))
 
-    return res.status(200).json({
+    return res.status(201).json({
         message: "success",
         data: review
     });

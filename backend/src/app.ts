@@ -7,6 +7,7 @@ import cors from "cors";
 import { authRouter } from "./routes/auth";
 import { movieRouter } from "./routes/movie";
 import { reviewRouter } from "./routes/review";
+import { userRouter } from "./routes/user";
 
 // CONTROLLERS
 import { errorController } from "./controllers/error";
@@ -32,6 +33,7 @@ app.use((req: IRequest, res: IResponse, next: NextFunction) => {
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/movies', movieRouter);
 app.use('/api/v1/movies', reviewRouter);
+app.use('/api/v1/user', userRouter);
 
 app.get("/", (req: IRequest, res: IResponse) => {
   res.send("Hello from the server!");

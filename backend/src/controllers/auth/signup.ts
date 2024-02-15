@@ -23,7 +23,7 @@ const signUpController = catchAsync(async (req: IRequest, res: IResponse, next: 
 
     const jwtToken = createToken(user._id, next);
 
-    return res.status(200).json({
+    return res.status(201).json({
         message: "success",
         token: jwtToken,
         data: {

@@ -91,7 +91,7 @@ export const createMovie = catchAsync(
       return next(new AppError("Movie creation process failed", 500));
     }
 
-    return res.status(200).json({
+    return res.status(201).json({
       message: "success",
       data: createdMovie,
     });
