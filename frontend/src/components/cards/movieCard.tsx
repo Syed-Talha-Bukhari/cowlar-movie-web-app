@@ -28,6 +28,7 @@ const MovieCard: FC<MovieCardProps> = ({ name, image, year, genre, averageRating
             try {
                 setIsLoading(true);
                 const { deleted } = await deleteMovie(_id, user?.token || "") as any;
+                console.log(deleted);
                 setIsLoading(false);
                 setRefreshMovies((prev: number) => prev+1);
                 toast.success('Movie deleted successfully!');

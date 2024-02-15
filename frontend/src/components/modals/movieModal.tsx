@@ -28,6 +28,7 @@ const MovieModal: React.FC<MovieModal> = ({ openModal, onClose, setIsLoading }) 
         setIsLoading(true);
         try {
             const newMovie = await createMovie(data, user?.token || "");
+            console.log(newMovie);
             setIsLoading(false);
             onClose()
             toast.success("Movie has been added!")
